@@ -7,7 +7,7 @@
             <el-input v-model="ruleForm.email"></el-input>
         </el-form-item>
         <el-form-item label="手机号码" prop="phome">
-            <el-input v-model="ruleForm.phome"></el-input>
+            <el-input onKeypress="return (/[\d]/.test(String.fromCharCode(event.keyCode)))" type="number" v-model="ruleForm.phome"></el-input>
         </el-form-item>
         <el-form-item label="密码" prop="pass">
             <el-input type="password" v-model="ruleForm.pass"></el-input>
