@@ -1,6 +1,6 @@
 <template>
     <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm app-container">
-        <el-form-item label="活动名称" prop="name">
+        <el-form-item label="活动名称" prop="name" width="100px">
             <el-input v-model="ruleForm.name"></el-input>
         </el-form-item>
         <el-form-item label="邮箱" prop="email">
@@ -9,6 +9,17 @@
         <el-form-item label="手机号码" prop="phome">
             <el-input v-model="ruleForm.phome"></el-input>
         </el-form-item>
+        <el-form-item label="密码" prop="pass">
+            <el-input type="password" v-model="ruleForm.pass"></el-input>
+        </el-form-item>
+
+        <el-form-item label="确认密码" prop="checkPass">
+            <el-input type="password" v-model="ruleForm.checkPass"></el-input>
+        </el-form-item>
+        <el-form-item label="年龄" prop="age">
+            <el-input onKeypress="return (/[\d]/.test(String.fromCharCode(event.keyCode)))" type="number" v-model.number="ruleForm.age"></el-input>
+        </el-form-item>
+
         <el-form-item label="活动区域" prop="region">
             <el-select v-model="ruleForm.region" placeholder="请选择活动区域">
                 <el-option label="区域一" value="shanghai"></el-option>
@@ -74,10 +85,47 @@
                     callback();
                 }
             };
+            var checkAge = (rule, value, callback) => {
+                if (!value) {
+                    return callback(new Error('年龄不能为空'));
+                }
+
+                if (!Number.isInteger(value)) {
+                    callback(new Error('请输入数字值'));
+                } else {
+                    if (value < 18) {
+                        callback(new Error('必须年满18岁'));
+                    } else {
+                        callback();
+                    }
+                }
+            };
+            var validatePass = (rule, value, callback) => {
+                if (value === '') {
+                    callback(new Error('请输入密码'));
+                } else {
+                    if (this.ruleForm.checkPass !== '') {
+                        this.$refs.ruleForm.validateField('checkPass');
+                    }
+                    callback();
+                }
+            };
+            var validatePass2 = (rule, value, callback) => {
+                if (value === '') {
+                    callback(new Error('请再次输入密码'));
+                } else if (value !== this.ruleForm.pass) {
+                    callback(new Error('两次输入密码不一致!'));
+                } else {
+                    callback();
+                }
+            };
             return {
                 ruleForm: {
                     name: '',
                     phome:'',
+                    pass: '',
+                    checkPass: '',
+                    age: '',
                     email: '',
                     region: '',
                     date1: '',
@@ -97,6 +145,16 @@
                     ],
                     phome: [
                         {required: true, trigger: 'blur', validator: validatePhome}
+                    ],
+                    pass: [
+                        {min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur'},
+                        { validator: validatePass, trigger: 'blur' }
+                    ],
+                    checkPass: [
+                        { validator: validatePass2, trigger: 'blur' }
+                    ],
+                    age: [
+                        { validator: checkAge, trigger: 'blur' }
                     ],
                     region: [
                         {required: true, message: '请选择活动区域', trigger: 'change'}
@@ -118,6 +176,15 @@
                     ]
                 }
             };
+        },
+        watch:{
+            "ruleForm.age": function(newVal,oldVal){
+                console.log(newVal);
+                console.log(oldVal);
+                if(!newVal){
+                    console.log(newVal);
+                }
+            }
         },
         methods: {
             submitForm(formName) {

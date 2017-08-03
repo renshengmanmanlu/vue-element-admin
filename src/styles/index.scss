@@ -267,3 +267,8 @@ code {
     animation: octocat-wave 560ms ease-in-out
   }
 }
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none !important;
+}
