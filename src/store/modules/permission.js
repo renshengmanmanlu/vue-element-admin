@@ -48,6 +48,7 @@ const permission = {
       return new Promise(resolve => {
         const { roles } = data
         let accessedRouters
+        //权限 生成路由
         if (roles.indexOf('admin') >= 0) {
           accessedRouters = asyncRouterMap
         } else {

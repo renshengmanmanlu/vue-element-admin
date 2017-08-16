@@ -16,11 +16,13 @@ const user = {
     }
   },
 
+  //更改 Vuex 的 store 中的状态的唯一方法是提交 mutation
   mutations: {
     SET_CODE: (state, code) => {
       state.code = code;
     },
     SET_TOKEN: (state, token) => {
+      debugger;
       state.token = token;
     },
     SET_INTRODUCTION: (state, introduction) => {
@@ -52,11 +54,15 @@ const user = {
   actions: {
     // 邮箱登录
     LoginByEmail({ commit }, userInfo) {
+      // Trim()是去两边空格的方法把StringBuffer转换成String类型
       const email = userInfo.email.trim();
+      // Promise在英语中语义为：”承诺“，它表示如A调用一个长时间任务B的时候，B将返回一个”承诺“给A，A不用关心整个实施的过程，继续做自己的任务；
+      // 当B实施完成的时候，会通过A，并将执行A之间的预先约定的回调。而deferred在英语中语义为：”延迟“，这也说明promise解决的问题是一种带有延迟的事件，
+      // 这个事件会被延迟到未来某个合适点再执行。
       return new Promise((resolve, reject) => {
         loginByEmail(email, userInfo.password).then(response => {
           const data = response.data;
-          setToken(response.data.token);
+          setToken(response.data.token); //登录成功后将token存储在cookie之中
           commit('SET_TOKEN', data.token);
           resolve();
         }).catch(error => {

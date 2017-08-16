@@ -69,16 +69,17 @@
       }
     },
     methods: {
-      handleLogin() {
+      handleLogin() { //  element validate 表单验证
         this.$refs.loginForm.validate(valid => {
           if (valid) {
             this.loading = true;
+            // vuex 分发 action
             this.$store.dispatch('LoginByEmail', this.loginForm).then(() => {
               this.loading = false;
-              this.$router.push({ path: '/' });
+              this.$router.push({ path: '/' }); //登录成功之后重定向到首页
                 // this.showDialog = true;
             }).catch(() => {
-              this.loading = false;
+              this.loading = false; //登录失败提示错误
             });
           } else {
             console.log('error submit!!');
