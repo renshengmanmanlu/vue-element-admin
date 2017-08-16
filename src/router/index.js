@@ -30,6 +30,8 @@ const CountTo = _import('components/countTo');
 const Mixin = _import('components/mixin');
 const BackToTop = _import('components/backToTop')
 const FormValidation = _import('components/formvalidation')
+const Transition = _import('components/transition')
+const Transition1 = _import('components/transition1')
 
 /* charts */
 const chartIndex = _import('charts/index');
@@ -134,7 +136,9 @@ export const asyncRouterMap = [
             {path: 'countto', component: CountTo, name: 'CountTo'},
             {path: 'mixin', component: Mixin, name: '小组件'},
             {path: 'backtotop', component: BackToTop, name: '返回顶部'},
-            {path: 'formvalidation', component: FormValidation, name: '表单验证扩展'}
+            {path: 'formvalidation', component: FormValidation, name: '表单验证扩展'},
+            {path: 'transition', component: Transition, name: '过度效果'},
+            {path: 'transition1', component: Transition1, name: '过度效果扩展'},
         ]
     },
     {
